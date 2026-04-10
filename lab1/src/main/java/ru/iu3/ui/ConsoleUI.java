@@ -1,7 +1,5 @@
 package ru.iu3.ui;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 import ru.iu3.service.interfaces.BookingService;
@@ -11,32 +9,21 @@ import ru.iu3.ui.handlers.BookingsMenuHandler;
 import ru.iu3.ui.handlers.DisplayHelper;
 import ru.iu3.ui.handlers.PassesMenuHandler;
 import ru.iu3.ui.handlers.RoomsMenuHandler;
-import ru.iu3.ui.items.BookingsMenuItem;
-import ru.iu3.ui.items.ExitMenuItem;
-import ru.iu3.ui.items.GenerateDataMenuItem;
-import ru.iu3.ui.items.PassesMenuItem;
-import ru.iu3.ui.items.RoomsMenuItem;
-import ru.iu3.ui.interfaces.MenuItem;
+import ru.iu3.util.TestDataUtils;
 
 public class ConsoleUI {
-    private  MainMenu mainMenuRunner;
+    private MainMenu mainMenuRunner;
 
     public ConsoleUI(Scanner scanner, RoomService roomService, PassService passService, BookingService bookingService, DisplayHelper displayHelper) {
         OutputUI display = new OutputUI();
+
+        TestDataUtils testDataUtils = new TestDataUtils(roomService, passService, bookingService);
         RoomsMenuHandler roomsMenuHandler = new RoomsMenuHandler(scanner, roomService, displayHelper);
         PassesMenuHandler passesMenuHandler = new PassesMenuHandler(scanner, passService, bookingService, displayHelper);
         BookingsMenuHandler bookingsMenuHandler = new BookingsMenuHandler(scanner, bookingService,
                 roomsMenuHandler, passesMenuHandler, displayHelper);
 
-        List<MenuItem> mainItems = Arrays.asList(
-                new RoomsMenuItem(display, roomsMenuHandler),
-                new BookingsMenuItem(display, bookingsMenuHandler),
-                new PassesMenuItem(display, passesMenuHandler),
-                new GenerateDataMenuItem(roomService, passService, bookingService),
-                new ExitMenuItem(display)
-        );
-
-        this.mainMenuRunner = new MainMenu(scanner, display, mainItems);
+        this.mainMenuRunner = new MainMenu(scanner, display, roomsMenuHandler, passesMenuHandler, bookingsMenuHandler, testDataUtils);
     }
 
     public void start() {

@@ -1,8 +1,6 @@
 package ru.iu3.ui;
 
-import java.util.List;
-
-import ru.iu3.ui.interfaces.MenuItem;
+import ru.iu3.enums.OptionsMenuEnum;
 
 public class OutputUI {
 
@@ -10,9 +8,9 @@ public class OutputUI {
         System.out.println("--- Добро пожаловать в чудный консольный коворкинг! ---");
     }
 
-    public void showOptions(List<MenuItem> items) {
-        for (MenuItem item : items) {
-            System.out.println(item.getKey() + ". " + item.getLabel());
+    public void showOptions() {
+        for (OptionsMenuEnum option : OptionsMenuEnum.values()) {
+            System.out.println(option.getKey() + ". " + option.getLabel());
         }
     }
 

@@ -10,13 +10,17 @@ import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomService;
 
 public class TestDataUtils {
+    private RoomService roomService;
+    private PassService passService;
+    private BookingService bookingService;
 
-    private TestDataUtils() {
+    public TestDataUtils(RoomService roomService, PassService passService, BookingService bookingService) {
+        this.roomService = roomService;
+        this.passService = passService;
+        this.bookingService = bookingService;
     }
 
-    public static void generateDemoData(RoomService roomService,
-            PassService passService,
-            BookingService bookingService) {
+    public void generateDemoData() {
         roomService.addRoom(RoomEnum.MEETING_ROOM, 1, "Большая переговорная", 500);
         roomService.addRoom(RoomEnum.WORKPLACE, 2, "Рабочее место 1", 200);
 
