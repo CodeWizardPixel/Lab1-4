@@ -1,13 +1,15 @@
 package ru.iu3.enums;
 
-public enum RoomEnum {
-    MEETING_ROOM(1,"Переговорная"),
-    WORKPLACE(2, "Рабочее место");
+public enum RoomMenuEnum {
+    SHOW_ALL(1, "Показать все комнаты"),
+    ADD(2, "Добавить комнату"),
+    LOCK(3, "Запечатать комнату"),
+    EXIT(4, "Выход");
 
     private int id;
     private String displayName;
 
-    RoomEnum(int id, String displayName) {
+    RoomMenuEnum(int id, String displayName) {
         this.id = id;
         this.displayName = displayName;
     }
@@ -20,8 +22,8 @@ public enum RoomEnum {
         return displayName;
     }
 
-    public static RoomEnum findByKey(int key) {
-        for (RoomEnum option : RoomEnum.values()) {
+    public static RoomMenuEnum findByKey(int key) {
+        for (RoomMenuEnum option : RoomMenuEnum.values()) {
             if (option.getId() == key) {
                 return option;
             }

@@ -8,6 +8,7 @@ import ru.iu3.service.interfaces.BookingService;
 import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomService;
 import ru.iu3.ui.handlers.BookingsMenuHandler;
+import ru.iu3.ui.handlers.DisplayHelper;
 import ru.iu3.ui.handlers.PassesMenuHandler;
 import ru.iu3.ui.handlers.RoomsMenuHandler;
 import ru.iu3.ui.items.BookingsMenuItem;
@@ -20,12 +21,12 @@ import ru.iu3.ui.interfaces.MenuItem;
 public class ConsoleUI {
     private  MainMenu mainMenuRunner;
 
-    public ConsoleUI(Scanner scanner, RoomService roomService, PassService passService, BookingService bookingService) {
+    public ConsoleUI(Scanner scanner, RoomService roomService, PassService passService, BookingService bookingService, DisplayHelper displayHelper) {
         OutputUI display = new OutputUI();
-        RoomsMenuHandler roomsMenuHandler = new RoomsMenuHandler(scanner, roomService);
-        PassesMenuHandler passesMenuHandler = new PassesMenuHandler(scanner, passService, bookingService);
+        RoomsMenuHandler roomsMenuHandler = new RoomsMenuHandler(scanner, roomService, displayHelper);
+        PassesMenuHandler passesMenuHandler = new PassesMenuHandler(scanner, passService, bookingService, displayHelper);
         BookingsMenuHandler bookingsMenuHandler = new BookingsMenuHandler(scanner, bookingService,
-                roomsMenuHandler, passesMenuHandler);
+                roomsMenuHandler, passesMenuHandler, displayHelper);
 
         List<MenuItem> mainItems = Arrays.asList(
                 new RoomsMenuItem(display, roomsMenuHandler),

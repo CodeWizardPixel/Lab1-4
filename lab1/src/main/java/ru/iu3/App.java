@@ -18,6 +18,7 @@ import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomFactory;
 import ru.iu3.service.interfaces.RoomService;
 import ru.iu3.ui.ConsoleUI;
+import ru.iu3.ui.handlers.DisplayHelper;
 import ru.iu3.validation.BookingValidator;
 import ru.iu3.validation.PassValidator;
 import ru.iu3.validation.RoomValidator;
@@ -36,9 +37,12 @@ public class App {
         PassValidator passValidator = new PassValidator(passRepository);
         PassService passService = new PassServiceImpl(passRepository, passValidator);
         BookingValidator bookingValidator = new BookingValidator();
-        BookingService bookingService = new BookingServiceImpl(roomService, passService, bookingRepository, bookingValidator);
+        BookingService bookingService = new BookingServiceImpl(roomService, passService, bookingRepository,
+                bookingValidator);
 
-        ConsoleUI consoleUI = new ConsoleUI(scanner,roomService, passService, bookingService);
+        DisplayHelper displayHelper = new DisplayHelper(passService, roomService, bookingService);
+
+        ConsoleUI consoleUI = new ConsoleUI(scanner, roomService, passService, bookingService, displayHelper);
         consoleUI.start();
     }
 }
