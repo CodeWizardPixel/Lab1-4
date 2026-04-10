@@ -1,13 +1,14 @@
 package ru.iu3.validation;
 
+import ru.iu3.entity.Pass;
 import ru.iu3.exceptions.ValidationException;
-import ru.iu3.repository.interfaces.PassRepository;
+import ru.iu3.repository.interfaces.Repository;
 
 public class PassValidator {
 
-    private final PassRepository passRepository;
+    private final Repository<Pass, Integer> passRepository;
 
-    public PassValidator(PassRepository passRepository) {
+    public PassValidator(Repository<Pass, Integer> passRepository) {
         this.passRepository = passRepository;
     }
 

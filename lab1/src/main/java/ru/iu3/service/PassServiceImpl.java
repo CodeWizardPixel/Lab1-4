@@ -4,15 +4,15 @@ import java.util.List;
 
 import ru.iu3.entity.Pass;
 import ru.iu3.exceptions.NotFoundExeption;
-import ru.iu3.repository.interfaces.PassRepository;
+import ru.iu3.repository.interfaces.Repository;
 import ru.iu3.service.interfaces.PassService;
 import ru.iu3.validation.PassValidator;
 
 public class PassServiceImpl implements PassService {
-    private  PassRepository passRepository;
+    private  Repository<Pass, Integer> passRepository;
     private  PassValidator passValidator;
 
-    public PassServiceImpl(PassRepository passRepository, PassValidator passValidator) {
+    public PassServiceImpl(Repository<Pass, Integer> passRepository, PassValidator passValidator) {
         this.passRepository = passRepository;
         this.passValidator = passValidator;
     }

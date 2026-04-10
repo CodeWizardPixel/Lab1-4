@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.iu3.entity.Pass;
-import ru.iu3.repository.interfaces.PassRepository;
+import ru.iu3.repository.interfaces.Repository;
 
-public class LPassRepositoryImpl implements PassRepository {
+public class LPassRepositoryImpl implements Repository<Pass, Integer> {
     private List<Pass> passes = new ArrayList<Pass>();
 
     @Override
@@ -26,10 +26,6 @@ public class LPassRepositoryImpl implements PassRepository {
 
     @Override
     public List<Pass> getAll() {
-     
-        
-        
-
         return passes;
     }
 

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.iu3.entity.interfaces.Room;
-import ru.iu3.repository.interfaces.RoomRepository;
+import ru.iu3.repository.interfaces.Repository;
 
-public class LRoomRepositoryImpl implements RoomRepository {
+public class LRoomRepositoryImpl implements Repository<Room, Integer> {
     private List<Room> rooms = new ArrayList<Room>();
 
     @Override
@@ -30,10 +30,12 @@ public class LRoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
-    public void deleteRoom(int id) {
-        Room roomToDelete = getById(id);
-        if (roomToDelete != null) {
-            rooms.remove(roomToDelete);
+    public void update(Room room) {
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).getId() == room.getId()) {
+                rooms.set(i, room);
+                return;
+            }
         }
     }
 }

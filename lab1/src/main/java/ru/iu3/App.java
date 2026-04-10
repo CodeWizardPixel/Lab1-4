@@ -2,12 +2,13 @@ package ru.iu3;
 
 import java.util.Scanner;
 
+import ru.iu3.entity.Booking;
+import ru.iu3.entity.Pass;
+import ru.iu3.entity.interfaces.Room;
 import ru.iu3.repository.LBookingRepositorylmpl;
 import ru.iu3.repository.LPassRepositoryImpl;
 import ru.iu3.repository.LRoomRepositoryImpl;
-import ru.iu3.repository.interfaces.BookingRepository;
-import ru.iu3.repository.interfaces.PassRepository;
-import ru.iu3.repository.interfaces.RoomRepository;
+import ru.iu3.repository.interfaces.Repository;
 import ru.iu3.service.BookingServiceImpl;
 import ru.iu3.service.DefaultRoomFactory;
 import ru.iu3.service.PassServiceImpl;
@@ -25,9 +26,9 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        RoomRepository roomRepository = new LRoomRepositoryImpl();
-        PassRepository passRepository = new LPassRepositoryImpl();
-        BookingRepository bookingRepository = new LBookingRepositorylmpl();
+        Repository<Room, Integer> roomRepository = new LRoomRepositoryImpl();
+        Repository<Pass, Integer> passRepository = new LPassRepositoryImpl();
+        Repository<Booking, Integer> bookingRepository = new LBookingRepositorylmpl();
 
         RoomFactory roomFactory = new DefaultRoomFactory();
         RoomValidator roomValidator = new RoomValidator(roomRepository);

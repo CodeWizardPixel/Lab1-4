@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.iu3.entity.Booking;
-import ru.iu3.repository.interfaces.BookingRepository;
+import ru.iu3.repository.interfaces.Repository;
 
-public class LBookingRepositorylmpl implements BookingRepository {
+public class LBookingRepositorylmpl implements Repository<Booking, Integer> {
     private List<Booking> bookings = new ArrayList<Booking>();
 
     @Override

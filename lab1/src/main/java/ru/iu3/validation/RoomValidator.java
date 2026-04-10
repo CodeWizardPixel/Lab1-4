@@ -1,14 +1,15 @@
 package ru.iu3.validation;
 
+import ru.iu3.entity.interfaces.Room;
 import ru.iu3.exceptions.ConflictException;
 import ru.iu3.exceptions.ValidationException;
-import ru.iu3.repository.interfaces.RoomRepository;
+import ru.iu3.repository.interfaces.Repository;
 
 public class RoomValidator {
 
-    private final RoomRepository roomRepository;
+    private final Repository<Room, Integer> roomRepository;
 
-    public RoomValidator(RoomRepository roomRepository) {
+    public RoomValidator(Repository<Room, Integer>  roomRepository) {
         this.roomRepository = roomRepository;
     }
 

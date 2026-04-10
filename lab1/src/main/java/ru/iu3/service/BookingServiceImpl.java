@@ -7,7 +7,7 @@ import ru.iu3.entity.Booking;
 import ru.iu3.entity.interfaces.Room;
 import ru.iu3.exceptions.ConflictException;
 import ru.iu3.exceptions.NotFoundExeption;
-import ru.iu3.repository.interfaces.BookingRepository;
+import ru.iu3.repository.interfaces.Repository;
 import ru.iu3.service.interfaces.BookingService;
 import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomService;
@@ -17,11 +17,11 @@ import java.time.Duration;
 public class BookingServiceImpl implements BookingService {
     private  RoomService roomService;
     private  PassService passService;
-    private  BookingRepository bookingRepository;
+    private  Repository<Booking, Integer> bookingRepository;
     private  BookingValidator bookingValidator;
 
     public BookingServiceImpl(RoomService roomService, PassService passService,
-            BookingRepository bookingRepository, BookingValidator bookingValidator) {
+            Repository<Booking, Integer> bookingRepository, BookingValidator bookingValidator) {
         this.roomService = roomService;
         this.passService = passService;
         this.bookingRepository = bookingRepository;
