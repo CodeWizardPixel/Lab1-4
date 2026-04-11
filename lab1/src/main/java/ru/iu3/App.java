@@ -13,6 +13,8 @@ import ru.iu3.service.BookingServiceImpl;
 import ru.iu3.service.DefaultRoomFactory;
 import ru.iu3.service.PassServiceImpl;
 import ru.iu3.service.RoomServiceImpl;
+import ru.iu3.service.pricing.GreedyStrategy;
+import ru.iu3.service.pricing.StandardStrategy;
 import ru.iu3.service.interfaces.BookingService;
 import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomFactory;
@@ -38,7 +40,7 @@ public class App {
         PassService passService = new PassServiceImpl(passRepository, passValidator);
         BookingValidator bookingValidator = new BookingValidator();
         BookingService bookingService = new BookingServiceImpl(roomService, passService, bookingRepository,
-                bookingValidator);
+                bookingValidator, new GreedyStrategy());
 
         DisplayHelper displayHelper = new DisplayHelper(passService, roomService, bookingService);
 

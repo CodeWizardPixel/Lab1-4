@@ -8,24 +8,27 @@ import ru.iu3.entity.interfaces.Room;
 import ru.iu3.exceptions.ConflictException;
 import ru.iu3.exceptions.NotFoundExeption;
 import ru.iu3.repository.interfaces.Repository;
+import ru.iu3.service.interfaces.PricingStrategy;
 import ru.iu3.service.interfaces.BookingService;
 import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomService;
 import ru.iu3.validation.BookingValidator;
-import java.time.Duration;
 
 public class BookingServiceImpl implements BookingService {
-    private  RoomService roomService;
-    private  PassService passService;
-    private  Repository<Booking, Integer> bookingRepository;
-    private  BookingValidator bookingValidator;
+    private RoomService roomService;
+    private PassService passService;
+    private Repository<Booking, Integer> bookingRepository;
+    private BookingValidator bookingValidator;
+    private PricingStrategy pricingStrategy;
 
     public BookingServiceImpl(RoomService roomService, PassService passService,
-            Repository<Booking, Integer> bookingRepository, BookingValidator bookingValidator) {
+            Repository<Booking, Integer> bookingRepository, BookingValidator bookingValidator,
+            PricingStrategy pricingStrategy) {
         this.roomService = roomService;
         this.passService = passService;
         this.bookingRepository = bookingRepository;
         this.bookingValidator = bookingValidator;
+        this.pricingStrategy = pricingStrategy;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.add(new Booking(bookingId, roomId, passId, startTime, endTime));
 
         Room room = roomService.getRoomById(roomId);
-        return calculateBookingCost(room, startTime, endTime);
+        return pricingStrategy.calculate(room, startTime, endTime);
     }
 
     @Override
@@ -72,12 +75,6 @@ public class BookingServiceImpl implements BookingService {
     public void cancelBooking(int id) {
         Booking booking = getBookingById(id);
         booking.deactivate();
-    }
-
-    private double calculateBookingCost(Room room, LocalDateTime startTime, LocalDateTime endTime) {
-        long minutes = Duration.between(startTime, endTime).toMinutes();
-        double hours = minutes / 60.0;
-        return hours * room.getHourlyRate();
     }
 
     private void checkIntersection(int roomId, LocalDateTime startTime, LocalDateTime endTime) {
