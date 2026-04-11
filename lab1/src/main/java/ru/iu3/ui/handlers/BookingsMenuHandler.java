@@ -68,34 +68,6 @@ public class BookingsMenuHandler {
         }
     }
 
-    private void addBooking() {
-        System.out.println(UiConstants.PROMPT_BOOKING_ROOM_ID);
-        int roomId = Integer.parseInt(scanner.nextLine());
-        System.out.println(UiConstants.PROMPT_BOOKING_MONTH);
-        int month = Integer.parseInt(scanner.nextLine());
-        System.out.println(UiConstants.PROMPT_BOOKING_DAY);
-        int day = Integer.parseInt(scanner.nextLine());
-        System.out.println(UiConstants.PROMPT_BOOKING_START_TIME);
-        LocalTime startTime = LocalTime.parse(scanner.nextLine());
-        System.out.println(UiConstants.PROMPT_BOOKING_END_TIME);
-        LocalTime endTime = LocalTime.parse(scanner.nextLine());
-
-        int year = LocalDate.now().getYear();
-        LocalDate date = LocalDate.of(year, month, day);
-        LocalDateTime startDateTime = LocalDateTime.of(date, startTime);
-        LocalDateTime endDateTime = LocalDateTime.of(date, endTime);
-        System.out.println(UiConstants.PROMPT_BOOKING_PASS_ID);
-        int passId = Integer.parseInt(scanner.nextLine());
-        double cost = bookingService.createBooking(roomId, passId, startDateTime, endDateTime);
-        System.out.println(UiConstants.BOOKING_CREATED + cost + UiConstants.BOOKING_CREATED_SUFFIX);
-    }
-
-    private void cancelBooking() {
-        System.out.println(UiConstants.PROMPT_BOOKING_CANCEL);
-        int id = Integer.parseInt(scanner.nextLine());
-        bookingService.cancelBooking(id);
-    }
-
     private MenuItem findItem(int key) {
         for (MenuItem item : items) {
             if (item.getKey() == key) {
@@ -138,7 +110,27 @@ public class BookingsMenuHandler {
         public boolean execute() {
             roomsMenuHandler.showRooms();
             passesMenuHandler.showPasses();
-            addBooking();
+
+            System.out.println(UiConstants.PROMPT_BOOKING_ROOM_ID);
+            int roomId = Integer.parseInt(scanner.nextLine());
+            System.out.println(UiConstants.PROMPT_BOOKING_MONTH);
+            int month = Integer.parseInt(scanner.nextLine());
+            System.out.println(UiConstants.PROMPT_BOOKING_DAY);
+            int day = Integer.parseInt(scanner.nextLine());
+            System.out.println(UiConstants.PROMPT_BOOKING_START_TIME);
+            LocalTime startTime = LocalTime.parse(scanner.nextLine());
+            System.out.println(UiConstants.PROMPT_BOOKING_END_TIME);
+            LocalTime endTime = LocalTime.parse(scanner.nextLine());
+
+            int year = LocalDate.now().getYear();
+            LocalDate date = LocalDate.of(year, month, day);
+            LocalDateTime startDateTime = LocalDateTime.of(date, startTime);
+            LocalDateTime endDateTime = LocalDateTime.of(date, endTime);
+            System.out.println(UiConstants.PROMPT_BOOKING_PASS_ID);
+            int passId = Integer.parseInt(scanner.nextLine());
+            double cost = bookingService.createBooking(roomId, passId, startDateTime, endDateTime);
+            System.out.println(UiConstants.BOOKING_CREATED + cost + UiConstants.BOOKING_CREATED_SUFFIX);
+
             return true;
         }
     }
@@ -157,7 +149,10 @@ public class BookingsMenuHandler {
         @Override
         public boolean execute() {
             showBookings();
-            cancelBooking();
+
+            System.out.println(UiConstants.PROMPT_BOOKING_CANCEL);
+            int id = Integer.parseInt(scanner.nextLine());
+            bookingService.cancelBooking(id);
             return true;
         }
     }
