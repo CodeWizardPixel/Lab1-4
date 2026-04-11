@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import ru.iu3.enums.RoomEnum;
+import ru.iu3.ui.constants.UiConstants;
 import ru.iu3.service.interfaces.BookingService;
 import ru.iu3.service.interfaces.PassService;
 import ru.iu3.service.interfaces.RoomService;
@@ -13,6 +14,11 @@ public class TestDataUtils {
     private RoomService roomService;
     private PassService passService;
     private BookingService bookingService;
+
+    public static void generateDemoData(RoomService roomService, PassService passService,
+            BookingService bookingService) {
+        new TestDataUtils(roomService, passService, bookingService).generateDemoData();
+    }
 
     public TestDataUtils(RoomService roomService, PassService passService, BookingService bookingService) {
         this.roomService = roomService;
@@ -36,6 +42,6 @@ public class TestDataUtils {
         LocalDateTime end2 = LocalDateTime.of(today, LocalTime.of(15, 0));
         bookingService.createBooking(2, 2, start2, end2);
 
-        System.out.println("Тестовые данные успешно созданы.");
+        System.out.println(UiConstants.TEST_DATA_SUCCESS);
     }
 }

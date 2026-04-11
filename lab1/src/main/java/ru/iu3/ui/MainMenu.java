@@ -6,8 +6,8 @@ import java.util.Scanner;
 import ru.iu3.ui.interfaces.MenuItem;
 
 public class MainMenu {
-    private  Scanner scanner;
-    private  OutputUI display;
+    private Scanner scanner;
+    private OutputUI display;
     private  List<MenuItem> items;
 
     public MainMenu(Scanner scanner, OutputUI display, List<MenuItem> items) {

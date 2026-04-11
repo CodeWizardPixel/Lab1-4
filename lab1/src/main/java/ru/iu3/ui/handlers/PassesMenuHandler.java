@@ -8,15 +8,15 @@ import ru.iu3.entity.Pass;
 import ru.iu3.entity.interfaces.Room;
 import ru.iu3.service.interfaces.BookingService;
 import ru.iu3.service.interfaces.PassService;
+import ru.iu3.ui.constants.UiConstants;
 import ru.iu3.ui.interfaces.MenuItem;
 
 public class PassesMenuHandler {
-    private static  String ERROR_MSG = "Произошла ошибка: ";
 
-    private  Scanner scanner;
-    private  PassService passService;
-    private  BookingService bookingService;
-    private  List<MenuItem> items = new ArrayList<>();
+    private Scanner scanner;
+    private PassService passService;
+    private BookingService bookingService;
+    private List<MenuItem> items = new ArrayList<>();
 
     public PassesMenuHandler(Scanner scanner, PassService passService, BookingService bookingService) {
         this.scanner = scanner;
@@ -36,25 +36,25 @@ public class PassesMenuHandler {
                 System.out.println(item.getKey() + ". " + item.getLabel());
             }
             try {
-                System.out.print("Выберите пункт меню: ");
+                System.out.print(UiConstants.PROMPT_MENU);
                 int choice = Integer.parseInt(scanner.nextLine());
                 MenuItem selected = findItem(choice);
                 if (selected != null) {
                     inPassesMenu = selected.execute();
                 } else {
-                    System.out.println("Неверный выбор. Пожалуйста, попробуйте снова.");
+                    System.out.println(UiConstants.INVALID_CHOICE);
                 }
             } catch (Exception e) {
-                System.out.println(ERROR_MSG + e.getMessage());
+                System.out.println(UiConstants.ERROR_PREFIX + e.getMessage());
             }
         }
     }
 
     public void showPasses() {
-        System.out.println("Cписок пропусков:");
+        System.out.println(UiConstants.PASSES_LIST_TITLE);
         for (Pass pass : passService.getAllPasses()) {
-            System.out.println(
-                    "ID: " + pass.getId() + ", Владелец: " + pass.getHolderName() + ", Активен: " + pass.isActive());
+            System.out.println(String.format(UiConstants.PASS_LINE_FORMAT, pass.getId(), pass.getHolderName(),
+                    pass.isActive()));
         }
     }
 
@@ -69,24 +69,39 @@ public class PassesMenuHandler {
 
     private class ShowPassesItem implements MenuItem {
         @Override
-        public int getKey() { return 1; }
+        public int getKey() {
+            return 1;
+        }
+
         @Override
-        public String getLabel() { return "Список пропусков"; }
+        public String getLabel() {
+            return UiConstants.PASS_MENU_SHOW;
+        }
+
         @Override
-        public boolean execute() { showPasses(); return true; }
+        public boolean execute() {
+            showPasses();
+            return true;
+        }
     }
 
     private class IssuePassItem implements MenuItem {
         @Override
-        public int getKey() { return 2; }
+        public int getKey() {
+            return 2;
+        }
+
         @Override
-        public String getLabel() { return "Добавить пропуск"; }
+        public String getLabel() {
+            return UiConstants.PASS_MENU_ISSUE;
+        }
+
         @Override
         public boolean execute() {
             showPasses();
-            System.out.println("Введите ID пропуска:");
+            System.out.println(UiConstants.PROMPT_PASS_ID);
             int id = Integer.parseInt(scanner.nextLine());
-            System.out.println("Введите имя владельца пропуска:");
+            System.out.println(UiConstants.PROMPT_PASS_HOLDER);
             String holderName = scanner.nextLine();
             passService.issuePass(id, holderName);
             return true;
@@ -95,13 +110,19 @@ public class PassesMenuHandler {
 
     private class DeactivatePassItem implements MenuItem {
         @Override
-        public int getKey() { return 3; }
+        public int getKey() {
+            return 3;
+        }
+
         @Override
-        public String getLabel() { return "Удалить пропуск"; }
+        public String getLabel() {
+            return UiConstants.PASS_MENU_DEACTIVATE;
+        }
+
         @Override
         public boolean execute() {
             showPasses();
-            System.out.println("Введите ID пропуска для деактивации:");
+            System.out.println(UiConstants.PROMPT_PASS_DEACTIVATE);
             int id = Integer.parseInt(scanner.nextLine());
             passService.deactivatePass(id);
             return true;
@@ -110,21 +131,28 @@ public class PassesMenuHandler {
 
     private class ShowRoomsForPassItem implements MenuItem {
         @Override
-        public int getKey() { return 4; }
+        public int getKey() {
+            return 4;
+        }
+
         @Override
-        public String getLabel() { return "Помещения для пропуска"; }
+        public String getLabel() {
+            return UiConstants.PASS_MENU_ROOMS_FOR_PASS;
+        }
+
         @Override
         public boolean execute() {
-            System.out.println("Введите ID пропуска:");
+            System.out.println(UiConstants.PROMPT_PASS_ID);
             int passId = Integer.parseInt(scanner.nextLine());
             List<Room> rooms = bookingService.getRoomsForPass(passId);
             if (rooms.isEmpty()) {
-                System.out.println("Для этого пропуска нет активных бронирований.");
+                System.out.println(UiConstants.PASS_NO_BOOKINGS);
                 return true;
             }
-            System.out.println("Помещения, к которым есть доступ по этому пропуску:");
+            System.out.println(UiConstants.PASS_ROOMS_ACCESS_HEADER);
             for (Room room : rooms) {
-                System.out.println(room.getId() + " | " + room.getType().getDisplayName() + " | " + room.getName());
+                System.out.println(String.format(UiConstants.PASS_ROOM_ROW_FORMAT, room.getId(),
+                        room.getType().getDisplayName(), room.getName()));
             }
             return true;
         }
@@ -132,10 +160,18 @@ public class PassesMenuHandler {
 
     private class BackItem implements MenuItem {
         @Override
-        public int getKey() { return 0; }
+        public int getKey() {
+            return 0;
+        }
+
         @Override
-        public String getLabel() { return "Назад"; }
+        public String getLabel() {
+            return UiConstants.PASS_MENU_BACK;
+        }
+
         @Override
-        public boolean execute() { return false; }
+        public boolean execute() {
+            return false;
+        }
     }
 }

@@ -1,11 +1,12 @@
 package ru.iu3.ui.items;
 
 import ru.iu3.ui.OutputUI;
+import ru.iu3.ui.constants.UiConstants;
 import ru.iu3.ui.interfaces.MenuItem;
 
 public class ExitMenuItem implements MenuItem {
 
-    private  OutputUI display;
+    private OutputUI display;
 
     public ExitMenuItem(OutputUI display) {
         this.display = display;
@@ -18,7 +19,7 @@ public class ExitMenuItem implements MenuItem {
 
     @Override
     public String getLabel() {
-        return "Выход";
+        return UiConstants.MAIN_EXIT;
     }
 
     @Override

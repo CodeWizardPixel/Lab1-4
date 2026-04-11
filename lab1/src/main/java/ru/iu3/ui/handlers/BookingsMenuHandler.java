@@ -9,16 +9,16 @@ import java.util.Scanner;
 
 import ru.iu3.entity.Booking;
 import ru.iu3.service.interfaces.BookingService;
+import ru.iu3.ui.constants.UiConstants;
 import ru.iu3.ui.interfaces.MenuItem;
 
 public class BookingsMenuHandler {
-    private static  String ERROR_MSG = "Произошла ошибка: ";
-    // Пул констант (coool!) Перенести все строковые константы (выводы) в interface!
-    private  Scanner scanner;
-    private  BookingService bookingService;
-    private  RoomsMenuHandler roomsMenuHandler;
-    private  PassesMenuHandler passesMenuHandler;
-    private  List<MenuItem> items = new ArrayList<>();
+
+    private Scanner scanner;
+    private BookingService bookingService;
+    private RoomsMenuHandler roomsMenuHandler;
+    private PassesMenuHandler passesMenuHandler;
+    private List<MenuItem> items = new ArrayList<>();
 
     public BookingsMenuHandler(Scanner scanner, BookingService bookingService,
             RoomsMenuHandler roomsMenuHandler, PassesMenuHandler passesMenuHandler) {
@@ -39,16 +39,16 @@ public class BookingsMenuHandler {
                 System.out.println(item.getKey() + ". " + item.getLabel());
             }
             try {
-                System.out.print("Выберите пункт меню: ");
+                System.out.print(UiConstants.PROMPT_MENU);
                 int choice = Integer.parseInt(scanner.nextLine());
                 MenuItem selected = findItem(choice);
                 if (selected != null) {
                     inBookingsMenu = selected.execute();
                 } else {
-                    System.out.println("Неверный выбор. Пожалуйста, попробуйте снова.");
+                    System.out.println(UiConstants.INVALID_CHOICE);
                 }
             } catch (Exception e) {
-                System.out.println(ERROR_MSG + e.getMessage());
+                System.out.println(UiConstants.ERROR_PREFIX + e.getMessage());
             }
         }
     }
@@ -63,35 +63,35 @@ public class BookingsMenuHandler {
 
     private void showBookings() {
         for (Booking booking : bookingService.getAllBookings()) {
-            System.out.println("ID: " + booking.getId() + ", ID Комнаты: " + booking.getRoomId() + ", Время: c "
-                    + booking.getStartTime() + " по " + booking.getEndTime() + ", ID Пропуска: " + booking.getPassId());
+            System.out.println(String.format(UiConstants.BOOKING_LINE_FORMAT, booking.getId(), booking.getRoomId(),
+                    booking.getStartTime(), booking.getEndTime(), booking.getPassId()));
         }
     }
 
     private void addBooking() {
-        System.out.println("Введите ID комнаты:");
+        System.out.println(UiConstants.PROMPT_BOOKING_ROOM_ID);
         int roomId = Integer.parseInt(scanner.nextLine());
-        System.out.println("Введите месяц (1-12):");
+        System.out.println(UiConstants.PROMPT_BOOKING_MONTH);
         int month = Integer.parseInt(scanner.nextLine());
-        System.out.println("Введите день месяца:");
+        System.out.println(UiConstants.PROMPT_BOOKING_DAY);
         int day = Integer.parseInt(scanner.nextLine());
-        System.out.println("Введите время начала (HH:mm):");
+        System.out.println(UiConstants.PROMPT_BOOKING_START_TIME);
         LocalTime startTime = LocalTime.parse(scanner.nextLine());
-        System.out.println("Введите время окончания (HH:mm):");
+        System.out.println(UiConstants.PROMPT_BOOKING_END_TIME);
         LocalTime endTime = LocalTime.parse(scanner.nextLine());
 
         int year = LocalDate.now().getYear();
         LocalDate date = LocalDate.of(year, month, day);
         LocalDateTime startDateTime = LocalDateTime.of(date, startTime);
         LocalDateTime endDateTime = LocalDateTime.of(date, endTime);
-        System.out.println("Введите ID пропуска:");
+        System.out.println(UiConstants.PROMPT_BOOKING_PASS_ID);
         int passId = Integer.parseInt(scanner.nextLine());
         double cost = bookingService.createBooking(roomId, passId, startDateTime, endDateTime);
-        System.out.println("Бронирование создано. Стоимость: " + cost + " руб.");
+        System.out.println(UiConstants.BOOKING_CREATED + cost + UiConstants.BOOKING_CREATED_SUFFIX);
     }
 
     private void cancelBooking() {
-        System.out.println("Введите ID бронирования для отмены:");
+        System.out.println(UiConstants.PROMPT_BOOKING_CANCEL);
         int id = Integer.parseInt(scanner.nextLine());
         bookingService.cancelBooking(id);
     }
@@ -107,18 +107,33 @@ public class BookingsMenuHandler {
 
     private class ShowBookingsItem implements MenuItem {
         @Override
-        public int getKey() { return 1; }
+        public int getKey() {
+            return 1;
+        }
+
         @Override
-        public String getLabel() { return "Список бронирований"; }
+        public String getLabel() {
+            return UiConstants.BOOKING_MENU_SHOW;
+        }
+
         @Override
-        public boolean execute() { showBookings(); return true; }
+        public boolean execute() {
+            showBookings();
+            return true;
+        }
     }
 
     private class AddBookingItem implements MenuItem {
         @Override
-        public int getKey() { return 2; }
+        public int getKey() {
+            return 2;
+        }
+
         @Override
-        public String getLabel() { return "Добавить бронирование"; }
+        public String getLabel() {
+            return UiConstants.BOOKING_MENU_ADD;
+        }
+
         @Override
         public boolean execute() {
             roomsMenuHandler.showRooms();
@@ -130,9 +145,15 @@ public class BookingsMenuHandler {
 
     private class CancelBookingItem implements MenuItem {
         @Override
-        public int getKey() { return 3; }
+        public int getKey() {
+            return 3;
+        }
+
         @Override
-        public String getLabel() { return "Удалить бронирование"; }
+        public String getLabel() {
+            return UiConstants.BOOKING_MENU_CANCEL;
+        }
+
         @Override
         public boolean execute() {
             showBookings();
@@ -143,10 +164,18 @@ public class BookingsMenuHandler {
 
     private class BackItem implements MenuItem {
         @Override
-        public int getKey() { return 0; }
+        public int getKey() {
+            return 0;
+        }
+
         @Override
-        public String getLabel() { return "Назад"; }
+        public String getLabel() {
+            return UiConstants.BOOKING_MENU_BACK;
+        }
+
         @Override
-        public boolean execute() { return false; }
+        public boolean execute() {
+            return false;
+        }
     }
 }

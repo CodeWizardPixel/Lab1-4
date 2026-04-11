@@ -18,7 +18,7 @@ import ru.iu3.ui.items.RoomsMenuItem;
 import ru.iu3.ui.interfaces.MenuItem;
 
 public class ConsoleUI {
-    private  MainMenu mainMenuRunner;
+    private MainMenu mainMenuRunner;
 
     public ConsoleUI(Scanner scanner, RoomService roomService, PassService passService, BookingService bookingService) {
         OutputUI display = new OutputUI();
