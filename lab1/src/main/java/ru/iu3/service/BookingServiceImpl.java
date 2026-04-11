@@ -30,7 +30,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public double createBooking(int roomId, int passId, LocalDateTime startTime, LocalDateTime endTime) {
-        bookingValidator.validateBookingRequest(roomId, passId, startTime, endTime, roomService.getRoomById(passId).getIsLocked());
+        bookingValidator.validateBookingRequest(roomId, passId, startTime, endTime, roomService.getRoomById(roomId).getIsLocked());
         roomService.getRoomById(roomId);
         passService.getPassById(passId);
         checkIntersection(roomId, startTime, endTime);

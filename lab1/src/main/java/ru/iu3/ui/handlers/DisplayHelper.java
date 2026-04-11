@@ -67,7 +67,7 @@ public class DisplayHelper {
         System.out.println(UiConstants.BOOKINGS_HEADER);
         for (Booking booking : bookings) {
             System.out.println(booking.getId() + " | " + booking.getRoomId() + " | "
-                    + booking.getStartTime() + " | " + booking.getEndTime() + " | " + booking.getPassId());
+                    + booking.getStartTime() + " | " + booking.getEndTime() + " | " + booking.getPassId() + " | " + booking.isActive());
         }
     }
 }

@@ -29,7 +29,7 @@ public class UiConstants {
 
     public static final String BOOKINGS_LIST_TITLE = "Список бронирований:";
     public static final String BOOKINGS_EMPTY = "Список бронирований пуст.";
-    public static final String BOOKINGS_HEADER = "ID | ID Комнаты | Время начала | Время окончания | ID Пропуска";
+    public static final String BOOKINGS_HEADER = "ID | ID Комнаты | Время начала | Время окончания | ID Пропуска | Активно";
     public static final String PROMPT_BOOKING_ROOM_ID = "Введите ID комнаты:";
     public static final String PROMPT_BOOKING_MONTH = "Введите месяц (1-12):";
     public static final String PROMPT_BOOKING_DAY = "Введите день месяца:";
