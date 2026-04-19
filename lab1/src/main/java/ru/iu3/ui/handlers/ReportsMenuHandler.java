@@ -40,7 +40,7 @@ public class ReportsMenuHandler {
         menuRunner.run();
     }
 
-    private void showActiveBookingsReport() {
+    private void showBookingsReport() {
         System.out.println(UiConstants.REPORT_ACTIVE_BOOKINGS_TITLE);
         boolean hasRows = false;
         for (Booking booking : bookingService.getAllBookings()) {
@@ -59,7 +59,7 @@ public class ReportsMenuHandler {
         }
     }
 
-    private void showRoomsLoadReport() {
+    private void showLoadReport() {
         System.out.println(UiConstants.REPORT_ROOMS_LOAD_TITLE);
         List<Room> rooms = roomService.getAllRooms();
         if (rooms.isEmpty()) {
@@ -96,19 +96,20 @@ public class ReportsMenuHandler {
 
         for (Pass pass : passes) {
             int activeBookingsCount = 0;
-            List<String> rooms = new ArrayList<>();
+            List<String> roomNames = new ArrayList<>();
 
             for (Booking booking : bookingService.getAllBookings()) {
                 if (booking.isActive() && booking.getPassId() == pass.getId()) {
                     activeBookingsCount++;
                     Room room = roomService.getRoomById(booking.getRoomId());
-                    rooms.add(room.getId() + " " + room.getName());
+                    roomNames.add(room.getId() + " " + room.getName());
                 }
             }
 
-            String roomNames = rooms.isEmpty() ? UiConstants.REPORT_NO_ROOMS_FOR_PASS : String.join(", ", rooms);
+            String names = roomNames.isEmpty() ? UiConstants.REPORT_NO_ROOMS_FOR_PASS : String.join(", ", roomNames);
+            
             System.out.println(String.format(UiConstants.REPORT_PASS_ROW, pass.getId(), pass.getHolderName(),
-                    pass.isActive(), activeBookingsCount, roomNames));
+                    pass.isActive(), activeBookingsCount, names));
         }
     }
 
@@ -131,7 +132,7 @@ public class ReportsMenuHandler {
 
         @Override
         public boolean execute() {
-            showActiveBookingsReport();
+            showBookingsReport();
             return true;
         }
     }
@@ -149,7 +150,7 @@ public class ReportsMenuHandler {
 
         @Override
         public boolean execute() {
-            showRoomsLoadReport();
+            showLoadReport();
             return true;
         }
     }
