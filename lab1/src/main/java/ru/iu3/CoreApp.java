@@ -23,7 +23,7 @@ import ru.iu3.validation.BookingValidator;
 import ru.iu3.validation.PassValidator;
 import ru.iu3.validation.RoomValidator;
 
-public class App {
+public class CoreApp {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
